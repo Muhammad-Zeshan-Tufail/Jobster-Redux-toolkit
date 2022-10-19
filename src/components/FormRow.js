@@ -1,12 +1,11 @@
-import React from "react";
-
-const FormRow = ({ name, type, value, onChange }) => {
+const FormRow = ({ type, name, value, onChange, labelText }) => {
   return (
     <div className="form-row">
       <label htmlFor={name} className="form-label">
-        {name}
+        {labelText || name}
       </label>
       <input
+        id={name}
         type={type}
         name={name}
         value={value}

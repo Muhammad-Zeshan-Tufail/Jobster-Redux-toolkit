@@ -3,7 +3,7 @@ import { FormRow, Logo } from "../components";
 import { useEffect, useState } from "react";
 import { toast } from "react-toastify";
 import { useDispatch, useSelector } from "react-redux";
-import { loginUser, registerUser } from "../features/user/userSlice";
+import {  loginUser, registerUser } from "../features/user/userSlice";
 import { useNavigate } from "react-router-dom";
 
 const initialState = {
