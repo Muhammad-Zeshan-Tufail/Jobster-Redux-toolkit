@@ -3,7 +3,7 @@ import { FormRow, Logo } from "../components";
 import { useEffect, useState } from "react";
 import { toast } from "react-toastify";
 import { useDispatch, useSelector } from "react-redux";
-import {  loginUser, registerUser } from "../features/user/userSlice";
+import { loginUser, registerUser } from "../features/user/userSlice";
 import { useNavigate } from "react-router-dom";
 
 const initialState = {
@@ -15,7 +15,7 @@ const initialState = {
 
 const Register = () => {
   const [values, setValues] = useState(initialState);
-  const { user,isLoading } = useSelector((store) => store.user);
+  const { user, isLoading } = useSelector((store) => store.user);
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
@@ -48,7 +48,7 @@ const Register = () => {
         navigate("/");
       }, 2000);
     }
-  }, [user,navigate]);
+  }, [user, navigate]);
 
   return (
     <Wrapper className="full-page">
@@ -79,9 +79,15 @@ const Register = () => {
           onChange={onChange}
         />
         <button type="submit" disabled={isLoading} className="btn btn-block">
-          {values.isMember
-            ? `${isLoading ? "Loading..." : "Login"}`
-            : `${isLoading ? "Loading..." : "Register"}`}
+            {isLoading ? "Loading..." : "Submit"}
+        </button>
+        <button
+          type="submit"
+          disabled={isLoading}
+          className="btn btn-block btn-hipster"
+          onClick={() => dispatch(loginUser({email:"testUser@test.com",password:"secret"}))}
+        >
+          {isLoading ? "Loading..." : "Demo App"}
         </button>
         <p>
           {values.isMember ? "Not a member?" : "Already a member"}
