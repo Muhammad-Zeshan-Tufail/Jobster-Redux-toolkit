@@ -38,31 +38,59 @@ export const getAllJobs = createAsyncThunk(
   }
 );
 
+export const showStats = createAsyncThunk(
+  "allJobs/showStatus",
+  async (_, thunkAPI) => {
+    try {
+      const resp = await customFetch.get("jobs/stats", {
+        headers: {
+          authorization: `Bearer ${thunkAPI.getState().user.user.token}`,
+        },
+      });
+      return resp.data;
+    } catch (error) {
+      return thunkAPI.rejectWithValue(error.response.data.msg);
+    }
+  }
+);
+
 const allJobsSlice = createSlice({
   name: "allJobs",
   initialState,
-  reducers:{
-    showLoading:(state)=>{
-      state.isLoading = true
+  reducers: {
+    showLoading: (state) => {
+      state.isLoading = true;
     },
-    hideLoading:(state)=>{
-      state.isLoading = false
-    }
+    hideLoading: (state) => {
+      state.isLoading = false;
+    },
   },
-  extraReducers:{
-    [getAllJobs.pending]: (state)=>{
-      state.isLoading = true
+  extraReducers: {
+    [getAllJobs.pending]: (state) => {
+      state.isLoading = true;
     },
-    [getAllJobs.fulfilled]: (state,{payload})=>{
-      state.isLoading = false
-      state.jobs = payload.jobs
+    [getAllJobs.fulfilled]: (state, { payload }) => {
+      state.isLoading = false;
+      state.jobs = payload.jobs;
     },
-    [getAllJobs.rejected]: (state,{payload})=>{
-      state.isLoading = false
-      toast.error(payload)
+    [getAllJobs.rejected]: (state, { payload }) => {
+      state.isLoading = false;
+      toast.error(payload);
     },
-  }
+    [showStats.pending]: (state) => {
+      state.isLoading = true;
+    },
+    [showStats.fulfilled]: (state, { payload }) => {
+      state.isLoading = false;
+      state.stats = payload.defaultStats;
+      state.monthlyApplications = payload.monthlyApplications;
+    },
+    [showStats.rejected]: (state, { payload }) => {
+      state.isLoading = false;
+      toast.error(payload);
+    },
+  },
 });
 
-export const {showLoading , hideLoading} = allJobsSlice.actions
+export const { showLoading, hideLoading } = allJobsSlice.actions;
 export default allJobsSlice.reducer;
